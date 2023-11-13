@@ -1,3 +1,5 @@
+#![allow(unused)]   // This ignores warnings of unused variables and functions during debugging
+
 /*  General
 N types:     i8 i16 'i32(default) i64(long) i128(longlong), u8..128(unsigned) 'f32(float) f64(double)
              i32::MAX returns the max range/value that that size of that type can hold
@@ -36,8 +38,13 @@ Logic operands: && || !   and evaluated in the order  1. !(not), 2. &&(and), 3. 
                         ->  false && true || true  ->  true || true  ->  true
 */
 
-//from the standard crate (library), use (import) module io  input/output
-use std::io; // for multiple import from same crate you can write {io, convert, ..} in curly braces
+// from the standard crate (library), use (import) module io  input/output
+// for multiple import from same crate you can write {io, convert, ..} in curly braces
+use std::io; 
+use rand::Rng;  // rand is "extra" and needs to be added to toml under dependencies as `rand = <version>`. See crates.io for ver.
+use std::io::{Write,BufReader,BufRead,ErrorKind};
+use std::fs::File;
+use std::cmp::Ordering;
 
 fn main() {
     /* Examples of types, their formats and casting
@@ -157,7 +164,7 @@ fn main() {
         //  - can only hold information with known and fixed sized, so not mutable or dynamic structures
         //  Rust automatically removes vars from the stack when its scope reaches its end, the function in this case.
         //
-        //  Stack - adds "down" removes "up"  //  Heap - works differently in Rust
+        //  Stack - adds "down" removes "up"  //  Heap - works differently in Rust (?)
         //  |  Address  |  Name  |  Value  |  //  |  Address  |  Name  |  Value  |
         //  |     0     |    x   |    2    |  //  |     5*    |    -   |   'h'
         //  |     1     |    y   |    ^    |  //  |     6     |    -   |   'e
